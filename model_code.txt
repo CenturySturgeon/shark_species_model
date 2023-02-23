@@ -1,0 +1,31 @@
+error_rate 0.158940
+#hide
+import fastbook
+fastbook.setup_book()
+from fastbook import *
+from fastai.vision.widgets import *
+
+import os
+
+path = '../datasets/sharks'  # replace with the path to your folder
+directories = [f for f in os.listdir(path) if os.path.isdir(os.path.join(path, f))]
+
+print(directories)
+
+sharks = DataBlock(
+    blocks=(ImageBlock, CategoryBlock), 
+    get_items=get_image_files, 
+    splitter=RandomSplitter(valid_pct=0.2, seed=42),
+    get_y=parent_label,
+    item_tfms=Resize(256))
+
+
+#crop images
+sharks = sharks.new(item_tfms=RandomResizedCrop(448, min_scale=0.5), batch_tfms=aug_transforms(mult=2))
+dls = sharks.dataloaders(path)
+dls.train.show_batch(max_n=4, nrows=1, unique=True)
+
+dls = sharks.dataloaders(path)
+
+learn = vision_learner(dls, resnet34, metrics=error_rate)
+learn.fine_tune(8)

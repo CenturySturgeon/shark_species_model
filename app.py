@@ -12,7 +12,7 @@ def predict(img):
 
 import gradio as gr
 title = "Shark Breed Classifier"
-description = "A shark species classifier trained on Lautar's shark species dataset on kaggle with fastai. Created as a demo for Gradio and HuggingFace Spaces."
+description = "A shark species classifier trained on Lautaro's shark species dataset on kaggle with fastai. Created as a demo for Gradio and HuggingFace Spaces.\nTo start, please drag and drop an image of a shark:"
 article="<p style='text-align: center'><a href='https://www.kaggle.com/datasets/larusso94/shark-species' target='_blank'>Blog post</a></p>"
 enable_queue=True
-gr.Interface(fn=predict,inputs=gr.inputs.Image(shape=(512, 512)),outputs=gr.outputs.Label(num_top_classes=3),title=title,description=description,article=article,enable_queue=enable_queue).launch(share=True)
+gr.Interface(fn=predict,inputs=gr.inputs.Image(shape=(512, 512)),outputs=gr.outputs.Label(num_top_classes=3),title=title,description=description,article=article,enable_queue=enable_queue).launch()
